@@ -13,8 +13,6 @@ const EmailFormatPopup = ({ open, handleClose }) => {
                 <List>
                     <ListItem>Contient des caractères alphanumériques, des points (.), des tirets (-), et des underscores (_) avant le symbole @ </ListItem>
                     <ListItem>Contient un domaine valide après le symbole @, suivi d'un point (.) et d'une extension de 2 à 4 lettres </ListItem>
-                    <ListItem>Contient au moins une lettre majuscule </ListItem>
-                    <ListItem>A une longueur comprise entre 8 et 20 caractères</ListItem>
                 </List>
             </DialogContent>
             <DialogActions>

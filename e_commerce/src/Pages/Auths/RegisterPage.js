@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Container } from '@mui/material';
 import Form from '../../Components/Form';
 import PasswordFormatPopup from './../../Utils/ValidateInputs/Formatpassword';
@@ -9,10 +9,19 @@ const RegisterPage = () => {
     const [popupInformation, setpopupInformation] = React.useState(false);
     const [popupEmail, setpopupEmail] = React.useState(false);
 
-    const handleClose = () => {
+    const handleClosePasswordInformation = () => {
+        console.log("close password information");
         setpopupInformation(false);
-        setpopupEmail(false);
     };
+
+    const handleCloseEmailInformation = () => {
+        setpopupEmail(false);
+    }
+    
+    useEffect(() => {
+        console.log("popupInformation : ", popupInformation);
+        console.log("popupEmail : ", popupEmail);
+    }, [popupInformation, popupEmail]);
 
     return (
         <Container sx={{
@@ -25,10 +34,10 @@ const RegisterPage = () => {
             <Container>
                 <Form title="Register" buttonText="Register" setpopupInformation={setpopupInformation} setpopupEmail={setpopupEmail} />
                 {popupInformation && (
-                    <PasswordFormatPopup />
+                    <PasswordFormatPopup open={popupInformation} handleClose={handleClosePasswordInformation} />
                 )}
                 {popupEmail && (
-                    <EmailFormatPopup open={popupEmail} handleClose={handleClose} />
+                    <EmailFormatPopup open={popupEmail} handleClose={handleCloseEmailInformation} />
                 )}
             </Container>
         </Container>

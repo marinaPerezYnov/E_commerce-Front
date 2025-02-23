@@ -14,10 +14,13 @@ const LoginPage = () => {
         console.log(popupInformation);
     }, [popupInformation]);
 
-    const handleClose = () => {
+    const handleClosePasswordInformation = () => {
         setpopupInformation(false);
-        setpopupEmail(false);
     };
+
+    const handleCloseEmailInformation = () => {
+        setpopupEmail(false);
+    }
 
 
     return (
@@ -31,10 +34,10 @@ const LoginPage = () => {
             <Container>
                 <Form title={"Login"} buttonText={"Login"} setpopupInformation={setpopupInformation} setpopupEmail={setpopupEmail} />
                 {popupInformation && (
-                    <PasswordFormatPopup open={popupInformation} handleClose={handleClose} />
+                    <PasswordFormatPopup open={popupInformation} handleClose={handleClosePasswordInformation} />
                 )}
                 {popupEmail && (
-                    <EmailFormatPopup open={popupEmail} handleClose={handleClose} />
+                    <EmailFormatPopup open={popupEmail} handleClose={handleCloseEmailInformation} />
                 )}
 
             </Container>
