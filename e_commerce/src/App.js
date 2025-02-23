@@ -21,7 +21,7 @@ function App() {
       <div className="App">
         <HeaderDrawerAppBar isConnect={isConnect} />
         <div className="containerBloc" style={{
-          margin: '10% 5%',
+          margin: '10% 2%',
         }}>
           <Routes>
             <Route exact path="/accueil" element={<HomePage />}></Route>

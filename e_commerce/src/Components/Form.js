@@ -1,15 +1,23 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { TextField, Button, Container, Typography, FormControl } from '@mui/material';
+import { TextField, Button, Container, Typography, FormControl, Link } from '@mui/material';
 import { login, register} from './../Requests_API/Auths';
+import { emailValidator, passwordValidator } from './../Utils/ValidateInputs/regexvalidation';
 
-const Form = ({title, buttonText}) => {
+const Form = ({title, buttonText, setpopupInformation, setpopupEmail}) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const navigate = useNavigate();
 
     const setAuthentificaton = (buttonText) => {
+        if(passwordValidator(password) !== true) {
+            return setpopupInformation(true);
+        }
+        if(emailValidator(email) !== true) {
+            return setpopupEmail(true);
+        }
         buttonText === "Login" ? login(email, password, navigate) : register(email, password, navigate);
+        setpopupInformation(false);
     };
 
     return (
@@ -32,9 +40,29 @@ const Form = ({title, buttonText}) => {
                     onChange={(e) => setPassword(e.target.value)}
                 />
             </FormControl>
-            <Button variant="contained" color="primary" type="submit" fullWidth onClick={()=>setAuthentificaton(buttonText)}>
-                {buttonText}
-            </Button>
+            <Container
+                sx={{
+                    display: buttonText === 'Login'? 'flex' : 'block',
+                    padding: '0 !important',
+                    justifyContent: buttonText === 'Login' ? 'space-between' : 'none',
+                    alignItems: buttonText === 'Login' ? 'center' : 'initial',
+                    margin: '20px 0',
+                }}>
+                <Button variant="contained" color="primary" sx={{
+                    backgroundColor: '#c01515',
+                    '&:hover': {
+                        backgroundColor: '#c01515',
+                    },
+                    width: buttonText === 'Login' ? '45%' : '100%',
+                }} type="submit" fullWidth onClick={()=>setAuthentificaton(buttonText)}>
+                    {buttonText}
+                </Button>
+                {buttonText === "Login" && (
+                    <Link href="#" sx={{
+                        color: '#c01515',
+                    }} onClick={() => console.log('mot de passe oublié')}>Mot de passe oublié ? </Link>
+                )}
+            </Container>
         </Container>
     );
 };
