@@ -19,8 +19,6 @@ const Form = ({title, buttonText, setpopupInformation, setpopupEmail}) => {
             return setpopupEmail(true);
         }
         buttonText === "Login" ? login(email, password, navigate) : register(email, password, navigate);
-        // setpopupInformation(false);
-        // setpopupEmail(false);
     };
 
     return (

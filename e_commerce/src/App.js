@@ -4,7 +4,9 @@ import HeaderDrawerAppBar from './Components/Header';
 import Footer from "./Components/Footer";
 import LoginPage from "./Pages/Auths/LoginPage";
 import RegisterPage from "./Pages/Auths/RegisterPage";
-import HomePage from "./Pages/Home/HomePage";
+import SettingPage from "./Pages/Setting/SettingPage";
+// import HomePage from "./Pages/Home/HomePage";
+
 import './App.css';
 
 function App() {
@@ -24,9 +26,10 @@ function App() {
           margin: '10% 2%',
         }}>
           <Routes>
-            <Route exact path="/accueil" element={<HomePage />}></Route>
+            {/* <Route exact path="/accueil" element={<HomePage />}></Route> */}
             <Route exact path="/connection" element={<LoginPage />}></Route>
             <Route exact path="/inscription" element={<RegisterPage />}></Route>
+            <Route exact path="/parametres" element={<SettingPage />}></Route>
           </Routes>
         </div>
         <Footer />
