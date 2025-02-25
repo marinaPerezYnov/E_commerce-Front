@@ -41,20 +41,16 @@ const SettingGraphic = ({
     const [color, setColor] = React.useState("#aabbcc");
     const [category, setCategory] = React.useState("Fonts");
 
-    const handleChangeCategory = () => {
-        if(category === "Fonts") {
-            setCategory("Colors");
-        } else {
-            setCategory("Fonts");
-        }
+    const handleChangeCategory = (e) => {
+        setCategory(e.target.innerText);
     };
 
     useEffect(() => {
-        if(category !== "Fonts") {
+        if(category === "FONTS") {
             document.getElementById("Fonts").style.display = "block";
             document.getElementById("Colors").style.display = "none";
         }
-        if(category !== "Colors") {
+        if(category === "COLORS") {
             document.getElementById("Fonts").style.display = "none";
             document.getElementById("Colors").style.display = "flex";
         }
@@ -67,7 +63,7 @@ const SettingGraphic = ({
             width: "100%",
         }}>
             {/* Sélection "Fonts" ou "Colors */}
-            <Tabs value={category} onChange={handleChangeCategory} aria-label="select setting">
+            <Tabs value={category} onChange={(e)=>handleChangeCategory(e)} aria-label="select setting">
                 <Tab label="Fonts" />
                 <Tab label="Colors" />
             </Tabs>
