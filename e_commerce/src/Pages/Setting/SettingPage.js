@@ -3,6 +3,7 @@ import { FormGroup, Grid2, Switch, Typography, FormControlLabel, Button, Contain
 import SettingAccount from '../../Components/SettingAccount';
 import SettingGraphic from '../../Components/SettingGraphic';
 import { 
+    getPersonnalisationGraphiques,
     createPersonnalisationGraphique, //createPersonnalisationGraphique(data)
     updatePersonnalisationGraphique, //updatePersonnalisationGraphique(id, data)
     getPersonnalisationGraphiqueByOwnerId, //getPersonnalisationGraphiqueByOwnerId(ownerId)
@@ -36,6 +37,13 @@ const SettingPage = () => {
     const [thirdColor, setThirdColor] = React.useState('');
 
     useEffect(() => {
+        getPersonnalisationGraphiques()
+        .then((response) => {
+            console.log(response);
+        })
+        .catch((error) => {
+            console.error(error);
+        });
         /* Mise à jour des valeurs dans les inputs */
         getPersonnalisationGraphiqueByOwnerId(sessionStorage.getItem('ownerId'))
         .then((response) => {
@@ -53,7 +61,7 @@ const SettingPage = () => {
             }
         })
         .catch((error) => {
-            if(error.response.status === 404) {
+            if(error.response?.status === 404) {
                 console.log("Not found");
             }
         });
@@ -61,13 +69,14 @@ const SettingPage = () => {
     }, []);
 
     const createNewPersonnalisationGraphique = () => {
+
         createPersonnalisationGraphique({
-            ownId: sessionStorage.getItem('ownerId'),
-            firstPolice,
-            secondaryPolice,
-            firstColor,
-            secondaryColor,
-            thirdColor
+            ownerId: Number(sessionStorage.getItem('ownerId')),
+            firstPolice: firstPolice,
+            secondaryPolice: secondaryPolice,
+            primaryColor: firstColor,
+            secondaryColor: secondaryColor,
+            thirdcolor: thirdColor
         });
     };
 
@@ -140,16 +149,27 @@ const SettingPage = () => {
                         createNewPersonnalisationGraphique={createNewPersonnalisationGraphique}
                     />
                 }
+                {/* 
+                    Bloc qui va lister les fonts avec leurs valeurs et les couleurs avec leurs valeurs
+                     en se basant sur une propriété transférée au composant enfant SettingGraphic.js
+                     Ex de props setCategory={setCategory}  qui settera comme valeur Fonts ou Colors
+                 */}
                 <Grid2 item xs={12} sm={6}>
                     {/* Bouton pour créer et mettre à jour les données en fonction de parameters === parametersList[0] */}
-                    <Button variant="contained" color="primary" sx={{
-                        width: '100%',
-                        margin: '2%'
-                    }} onClick={createNewPersonnalisationGraphique}>Editer {parameters === parametersList[0]?parametersList[0]:parametersList[1] }</Button>
-                    <Button variant="contained" color="primary" sx={{
-                        width: '100%',
-                        margin: '2%'
-                    }} onClick={updatePersonnalisationGraphiqueById}>Mettre à jour{parameters === parametersList[0]?parametersList[0]:parametersList[1] }</Button>
+                    <Button variant="contained" color="primary" 
+                        sx={{
+                            width: '100%',
+                            margin: '2%'
+                        }} onClick={createNewPersonnalisationGraphique}
+                        disabled={idPersonnalisationGraphique !== ''}
+                    >Editer {parameters === parametersList[0]?parametersList[0]:parametersList[1] }</Button>
+                    <Button variant="contained" color="primary" 
+                        sx={{
+                            width: '100%',
+                            margin: '2%'
+                        }} onClick={updatePersonnalisationGraphiqueById}
+                        disabled={idPersonnalisationGraphique === ''}
+                    >Mettre à jour{parameters === parametersList[0]?parametersList[0]:parametersList[1] }</Button>
                 </Grid2>
                 </Container>
             </Grid2>

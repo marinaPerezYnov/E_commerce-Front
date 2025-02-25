@@ -13,14 +13,14 @@ import {
 import { HexColorPicker } from 'react-colorful';
 
 const ListOfFonts = [
-    '"Segoe UI"',
+    'Segoe UI',
     'Roboto',
-    '"Helvetica Neue"',
+    'Helvetica Neue',
     'Arial',
     'sans-serif',
-    '"Apple Color Emoji"',
-    '"Segoe UI Emoji"',
-    '"Segoe UI Symbol"',
+    'Apple Color Emoji',
+    'Segoe UI Emoji',
+    'Segoe UI Symbol',
 ];
 
 const ListOfColors = [
@@ -81,16 +81,21 @@ const SettingGraphic = ({
                     />
                 </FormGroup>
                 <FormControl>
-                    <RadioGroup
+                <RadioGroup
                         aria-labelledby="demo-radio-buttons-group-label"
                         defaultValue={ListOfFonts[0]}
                         name="radio-buttons-group"
+                        onChange={(e) => {
+                            const selectedFont = e.target.value;
+                            if (choosePolice !== "Première font") {
+                                setSecondaryPolice(selectedFont);
+                            } else {
+                                setFirstPolice(selectedFont);
+                            }
+                        }}
                     >
                         {ListOfFonts.map((font, index) => (
-                            choosePolice !== "Première font" ?
-                            <FormControlLabel value={font} control={<Radio />} label={font} />
-                            :
-                            <FormControlLabel value={font} control={<Radio />} label={font} />
+                            <FormControlLabel key={index} value={font} control={<Radio />} label={font} />
                         ))}
                     </RadioGroup>
                 </FormControl>
