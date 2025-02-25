@@ -1,5 +1,15 @@
-import React from 'react';
-import { Grid2, List, ListItem, FormGroup, FormControlLabel, Switch, Button } from '@mui/material';
+import React, { useEffect } from 'react';
+import { 
+    Grid2, 
+    FormGroup, 
+    FormControlLabel, 
+    Switch, 
+    Radio, 
+    RadioGroup, 
+    FormControl, 
+    Tabs,
+    Tab
+} from '@mui/material';
 import { HexColorPicker } from 'react-colorful';
 
 const ListOfFonts = [
@@ -29,9 +39,39 @@ const SettingGraphic = ({
     const [choosePolice, setChoosePolice] = React.useState('Première font');
     const [chooseColor, setChooseColor] = React.useState('première couleur');
     const [color, setColor] = React.useState("#aabbcc");
+    const [category, setCategory] = React.useState("Fonts");
+
+    const handleChangeCategory = () => {
+        if(category === "Fonts") {
+            setCategory("Colors");
+        } else {
+            setCategory("Fonts");
+        }
+    };
+
+    useEffect(() => {
+        if(category !== "Fonts") {
+            document.getElementById("Fonts").style.display = "block";
+            document.getElementById("Colors").style.display = "none";
+        }
+        if(category !== "Colors") {
+            document.getElementById("Fonts").style.display = "none";
+            document.getElementById("Colors").style.display = "flex";
+        }
+    }, [category]);
+
     return (
-        <Grid2 item xs={12} sm={12}>
-            <Grid2 item xs={12} sm={6}>
+        <Grid2 id="ContainerSettings" item xs={12} sm={12} sx={{
+            padding: "2%",
+            boxShadow: "2px 2px 3px 0px #004580",
+            width: "100%",
+        }}>
+            {/* Sélection "Fonts" ou "Colors */}
+            <Tabs value={category} onChange={handleChangeCategory} aria-label="select setting">
+                <Tab label="Fonts" />
+                <Tab label="Colors" />
+            </Tabs>
+            <Grid2 id="Fonts" item xs={12} sm={6}>
                 <FormGroup>
                     <FormControlLabel 
                         control={<Switch defaultChecked onChange={()=> {
@@ -44,23 +84,35 @@ const SettingGraphic = ({
                         label={choosePolice} 
                     />
                 </FormGroup>
-                <List>
-                    {ListOfFonts.map((font, index) => (
-                        choosePolice !== "Première font" ? 
-                        <ListItem key={index} onClick={(e)=> setFirstPolice(font)}>{font}</ListItem>
-                        :
-                        <ListItem key={index} onClick={(e)=> setSecondaryPolice(font)}>{font}</ListItem>
-                    ))}
-                </List>
+                <FormControl>
+                    <RadioGroup
+                        aria-labelledby="demo-radio-buttons-group-label"
+                        defaultValue={ListOfFonts[0]}
+                        name="radio-buttons-group"
+                    >
+                        {ListOfFonts.map((font, index) => (
+                            choosePolice !== "Première font" ?
+                            <FormControlLabel value={font} control={<Radio />} label={font} />
+                            :
+                            <FormControlLabel value={font} control={<Radio />} label={font} />
+                        ))}
+                    </RadioGroup>
+                </FormControl>
             </Grid2>
-            <Grid2 item xs={12} sm={6}>
-                {ListOfColors.map((color, index) => (
-                    <Grid2 item xs={4} sm={4} key={index}>
-                        <Button onClick={()=>{
-                            setChooseColor(color);
-                        }}> Sélectionnez votre {color}</Button>
-                    </Grid2>
-                ))}
+            <Grid2 id="Colors" item xs={12} sm={12}>
+                <FormControl>
+                    <RadioGroup
+                        aria-labelledby="demo-radio-buttons-group-label"
+                        defaultValue={ListOfFonts[0]}
+                        name="radio-buttons-group"
+                    >
+                        {ListOfColors.map((color, index) => (
+                            <FormControlLabel onClick={()=>{
+                                setChooseColor(color);
+                            }} value={color} control={<Radio />} label={color} />
+                        ))}
+                    </RadioGroup>
+                </FormControl>
 
                 <HexColorPicker color={color} onChange={(e) => {
                     switch(chooseColor) {
@@ -77,9 +129,8 @@ const SettingGraphic = ({
                             break;
                     }
                 }} />
-                <p>Selected color: {color}</p>
-            </Grid2>
         </Grid2>
+    </Grid2>
     )
 };
 

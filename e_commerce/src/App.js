@@ -26,7 +26,8 @@ function App() {
           margin: '10% 2%',
         }}>
           <Routes>
-            {/* <Route exact path="/accueil" element={<HomePage />}></Route> */}
+            <Route exact path="/" element={<LoginPage />}></Route>
+            {/* <Route exact path="/accueil" element={<LoginPage />}></Route> */}
             <Route exact path="/connection" element={<LoginPage />}></Route>
             <Route exact path="/inscription" element={<RegisterPage />}></Route>
             <Route exact path="/parametres" element={<SettingPage />}></Route>

@@ -10,14 +10,14 @@ const Form = ({title, buttonText, setpopupInformation, setpopupEmail}) => {
     const navigate = useNavigate();
 
     const setAuthentificaton = (buttonText) => {
-        if(passwordValidator(password) !== true) {
-            setpopupEmail(false);
-            return setpopupInformation(true);
-        }
-        if(emailValidator(email) !== true) {
-            setpopupInformation(false);
-            return setpopupEmail(true);
-        }
+        // if(passwordValidator(password) !== true) {
+            // setpopupEmail(false);
+            // return setpopupInformation(true);
+        // }
+        // if(emailValidator(email) !== true) {
+            // setpopupInformation(false);
+            // return setpopupEmail(true);
+        // }
         buttonText === "Login" ? login(email, password, navigate) : register(email, password, navigate);
     };
 

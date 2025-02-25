@@ -1,6 +1,11 @@
 import React from 'react';
-import { Button, Grid2, List, ListItem, TextField } from '@mui/material';
+import { Button, Divider, Grid2, List, ListItem, TextField } from '@mui/material';
 
+/** 
+ * Implémenter le système de réinitialisation de mot de passe
+ * de modification d'email
+ * de suppression de compte
+ * **/
 const SettingAccount = ({setEditEmail, setOldPassword, setReinitializePassword}) => {
     const handleDeleteAccount = () => {
         console.log("delete account");
@@ -11,22 +16,30 @@ const SettingAccount = ({setEditEmail, setOldPassword, setReinitializePassword})
     }
 
     return (
-        <Grid2 item xs={12} sm={6}>
+        <Grid2 item xs={12} sm={6} sx={{
+            padding: "5%",
+            boxShadow: "2px 2px 3px 0px #004580",
+            marginTop: "2%",
+        }}>
             <List>
                 <ListItem sx={{
                     paddingLeft: '0 !important',
-                }}>réinitialiser mot de passe</ListItem>
-                <TextField label="Ancien mot de passe" type="password" onChange={(e) => setOldPassword(e.target.value)}/>
-                <TextField label="Nouveau mot de passe" type="password" onChange={(e) => setReinitializePassword(e.target.value)}/>
+                }}>Réinitialiser le mot de passe</ListItem>
+                <TextField sx={{
+                    width: '100%',
+                }} label="Ancien mot de passe" type="password" onChange={(e) => setOldPassword(e.target.value)}/>
+                <TextField sx={{
+                    width: '100%',
+                }} label="Nouveau mot de passe" type="password" onChange={(e) => setReinitializePassword(e.target.value)}/>
                 <ListItem sx={{
                     paddingLeft: '0 !important',
-                }}>modifier email</ListItem>
+                }}>Modifier l'email</ListItem>
                 <TextField label="Nouvel email" sx={{
                     width: '100%',
                 }} onChange={(e) => setEditEmail(e.target.value) } type="email" />
-                <ListItem sx={{
-                    paddingLeft: '0 !important',
-                }}>supprimer compte</ListItem>
+                <Divider sx={{
+                    margin: "5% 0",
+                }} />
                 <Button variant="contained" sx={{
                     width: '100%',
                 }} onClick={handleDeleteAccount} color="secondary">Supprimer son compte </Button>
