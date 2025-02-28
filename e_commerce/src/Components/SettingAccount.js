@@ -1,18 +1,14 @@
 import React from 'react';
 import { Button, Divider, Grid2, List, ListItem, TextField } from '@mui/material';
 
-/** 
- * Implémenter le système de réinitialisation de mot de passe
- * de modification d'email
- * de suppression de compte
- * **/
-const SettingAccount = ({setEditEmail, setOldPassword, setReinitializePassword}) => {
+const SettingAccount = ({setEditEmail, setOldPassword, setReinitializePassword, setToDelete, setToUpdate}) => {
+    
     const handleDeleteAccount = () => {
-        console.log("delete account");
+        setToDelete(true);
     }
 
     const updateUserParameters = () => {
-        console.log("update user parameters");
+        setToUpdate(true);
     }
 
     return (

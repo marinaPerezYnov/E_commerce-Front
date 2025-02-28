@@ -9,6 +9,8 @@ import {
     getPersonnalisationGraphiqueByOwnerId, //getPersonnalisationGraphiqueByOwnerId(ownerId)
     deletePersonnalisationGraphique, //deletePersonnalisationGraphique(id)
 } from './../../Requests_API/Personnalisation_Graphic';
+import { changePassword, updateEmail, deleteAccount } from './../../Requests_API/User';
+
 
 const parametersList = [
     " compte",
@@ -24,6 +26,34 @@ const SettingPage = () => {
     const [editEmail, setEditEmail] = React.useState('');
     const [oldPassword, setOldPassword] = React.useState('');
     const [reinitializePassword, setReinitializePassword] = React.useState('');
+
+    const [toDelete, setToDelete] = React.useState(false);
+    const [toUpdate, setToUpdate] = React.useState(false);
+
+    useEffect(() => {
+
+        if(toDelete) {
+            deleteAccount(sessionStorage.getItem('ownerId'));
+            setToDelete(false);
+        }
+
+        if(toUpdate) {
+
+            if(editEmail !== '') {
+                updateEmail(sessionStorage.getItem('ownerId'), {
+                    email: editEmail
+                });
+            }
+            if(oldPassword !== '' && reinitializePassword !== '') {
+                changePassword(sessionStorage.getItem('ownerId'), {
+                    oldPassword,
+                    newPassword: reinitializePassword
+                });
+            }
+            setToUpdate(false);
+        }
+    
+    },[toDelete, toUpdate, editEmail, oldPassword, reinitializePassword]);
 
     /* Graphic */
     const [idPersonnalisationGraphique, setIdPersonnalisationGraphique] = React.useState('');
@@ -138,6 +168,8 @@ const SettingPage = () => {
                         setEditEmail={setEditEmail} 
                         setOldPassword={setOldPassword} 
                         setReinitializePassword={setReinitializePassword} 
+                        setToDelete={setToDelete} 
+                        setToUpdate={setToUpdate}
                     />
                     : 
                     <SettingGraphic 
