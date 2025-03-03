@@ -27,7 +27,7 @@ const navItemsNonAuthentified = [
     { text: "Accueil", path: "/accueil" },
     { text: "Boutique", path: "/boutique" },
     { text: "Produits", path: "/produits" },
-    { text: "Personnalisation", path: "/personnalisation" },
+    { text: "Personnalisation", path: "/parametres" },
     { text: "Contact", path: "/contact" },
     { text: "Se déconnecter", path: "/deconnexion" }
   ];
