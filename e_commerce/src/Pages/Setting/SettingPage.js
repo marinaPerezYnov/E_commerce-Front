@@ -21,7 +21,6 @@ const parametersList = [
 // Bloc de personnalisation graphique
 const SettingPage = () => {
     const [parameters, setParameters] = useState(parametersList[0]);
-    console.log("parameters : ", parameters);
     /* Account */
     const [editEmail, setEditEmail] = React.useState('');
     const [oldPassword, setOldPassword] = React.useState('');

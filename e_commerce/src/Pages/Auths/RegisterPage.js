@@ -17,11 +17,6 @@ const RegisterPage = () => {
     const handleCloseEmailInformation = () => {
         setpopupEmail(false);
     }
-    
-    useEffect(() => {
-        console.log("popupInformation : ", popupInformation);
-        console.log("popupEmail : ", popupEmail);
-    }, [popupInformation, popupEmail]);
 
     return (
         <Container sx={{
