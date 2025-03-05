@@ -15,6 +15,7 @@ import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import { Link } from 'react-router-dom';
+import { AuthContext } from '../App';
 
 const drawerWidth = 240;
 const navItemsNonAuthentified = [
@@ -32,12 +33,11 @@ const navItemsNonAuthentified = [
     { text: "Se déconnecter", path: "/deconnexion" }
   ];
 
-const HeaderDrawerAppBar = ({isConnect}) => {
-// const HeaderDrawerAppBar = (props) => {
-//   const { isConnect } = props;
-//   const { window, isConnect } = props;
+const HeaderDrawerAppBar = () => {
   const [mobileOpen, setMobileOpen] = React.useState(false);
-
+  const { isConnect } = React.useContext(AuthContext);
+  console.log("isConnect =>", isConnect);
+  console.log("sessionStorage =>", sessionStorage.getItem('token'));
   const handleDrawerToggle = () => {
     setMobileOpen((prevState) => !prevState);
   };
@@ -113,9 +113,7 @@ const HeaderDrawerAppBar = ({isConnect}) => {
   );
 }
 
-// HeaderDrawerAppBar.propTypes = {
-// //   window: PropTypes.func,
-//   isConnect: PropTypes.bool.isRequired,
-// };
-
+HeaderDrawerAppBar.propTypes = {
+  isConnect: PropTypes.bool.isRequired,
+};
 export default HeaderDrawerAppBar;

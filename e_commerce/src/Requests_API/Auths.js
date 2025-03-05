@@ -2,7 +2,7 @@ import axios from 'axios';
 
 const API_URL = 'http://localhost:3000'; // Replace with your actual API URL
 
-export const login = async (email, password, navigate) => {
+export const login = async (email, password, navigate, setIsConnect) => {
     try {
         const response = await axios.post(`${API_URL}/auth/login`, {
             "email": email,
@@ -10,7 +10,7 @@ export const login = async (email, password, navigate) => {
         });
         sessionStorage.setItem('token', response.data.access_token);
         sessionStorage.setItem('ownerId', response.data.user.id);
-        
+        setIsConnect(true);
         navigate('/accueil');
         return response.data;
     } catch (error) {
@@ -19,7 +19,7 @@ export const login = async (email, password, navigate) => {
     }
 };
 
-export const register = async (email, password, navigate) => {
+export const register = async (email, password, navigate, setIsConnect) => {
     try {
         const response = await axios.post(`${API_URL}/auth/register`, {
             email,
@@ -28,6 +28,7 @@ export const register = async (email, password, navigate) => {
 
         sessionStorage.setItem('token', response.data.access_token);
         sessionStorage.setItem('ownerId', response.data.newUser.id);
+        setIsConnect(true);
         navigate('/accueil');
         return response.data;
     } catch (error) {

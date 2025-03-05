@@ -3,12 +3,14 @@ import { useNavigate } from 'react-router-dom';
 import { TextField, Button, Container, Typography, FormControl, Link } from '@mui/material';
 import { login, register} from './../Requests_API/Auths';
 import { emailValidator, passwordValidator } from './../Utils/ValidateInputs/regexvalidation';
+import { AuthContext } from '../App';
+import PropTypes from 'prop-types';
 
 const Form = ({title, buttonText, setpopupInformation, setpopupEmail}) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const navigate = useNavigate();
-
+    const { setIsConnect } = React.useContext(AuthContext);
     const setAuthentificaton = (buttonText) => {
         // if(passwordValidator(password) !== true) {
             // setpopupEmail(false);
@@ -18,7 +20,7 @@ const Form = ({title, buttonText, setpopupInformation, setpopupEmail}) => {
             // setpopupInformation(false);
             // return setpopupEmail(true);
         // }
-        buttonText === "Login" ? login(email, password, navigate) : register(email, password, navigate);
+        buttonText === "Login" ? login(email, password, navigate, setIsConnect) : register(email, password, navigate, setIsConnect);
     };
 
     return (
@@ -66,6 +68,10 @@ const Form = ({title, buttonText, setpopupInformation, setpopupEmail}) => {
             </Container>
         </Container>
     );
+};
+
+Form.propTypes = {
+  isConnect: PropTypes.bool.isRequired,
 };
 
 export default Form;
