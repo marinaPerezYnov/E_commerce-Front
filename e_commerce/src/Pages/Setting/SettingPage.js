@@ -1,5 +1,5 @@
-import React, { use, useEffect, useState } from 'react';
-import { FormGroup, Grid2, Switch, Typography, FormControlLabel, Button, Container, Icon } from '@mui/material';
+import React, { useEffect, useState } from 'react';
+import { FormGroup, Grid2, Switch, Typography, FormControlLabel, Button, Container } from '@mui/material';
 import ColorLensIcon from '@mui/icons-material/ColorLens';
 import SettingAccount from '../../Components/SettingAccount';
 import SettingGraphic from '../../Components/SettingGraphic';
@@ -11,7 +11,7 @@ import {
 } from './../../Requests_API/Personnalisation_Graphic';
 import { changePassword, updateEmail, deleteAccount } from './../../Requests_API/User';
 import { PersonnalisationGraphiqueContext } from '../../App';
-
+import './../../App.css';
 
 const parametersList = [
     " compte",
@@ -150,6 +150,8 @@ const SettingPage = () => {
                 </FormGroup>
                 <Typography variant="h4" component="h1" gutterBottom sx={{
                     textAlign: "left",
+                    fontFamily:'var(--secondary-police)',
+
                 }}>
                 Paramètres de 
                     {parameters === parametersList[0] ? parametersList[0] : parametersList[1]}

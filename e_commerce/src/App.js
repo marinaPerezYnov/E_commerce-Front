@@ -1,4 +1,4 @@
-import React, { useState, useEffect, createContext, use } from "react";
+import React, { useState, useEffect, createContext } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import HeaderDrawerAppBar from './Components/Header';
 import Footer from "./Components/Footer";
@@ -9,6 +9,7 @@ import HomePage from "./Pages/Home/HomePage";
 import { getPersonnalisationGraphiqueByOwnerId } from "./Requests_API/Personnalisation_Graphic";
 
 import './App.css';
+import './Styles/variable.css';
 
 export const AuthContext = createContext();
 export const PersonnalisationGraphiqueContext = createContext();
@@ -40,6 +41,14 @@ function App() {
           setFirstColor(response.primaryColor);
           setSecondaryColor(response.secondaryColor);
           setThirdColor(response.thirdcolor);
+
+          // Injecter les valeurs de personnalisation graphique dans les variables CSS dynamiques
+          document.documentElement.style.setProperty('--first-police', response.firstPolice);
+          document.documentElement.style.setProperty('--secondary-police', response.secondaryPolice);
+          document.documentElement.style.setProperty('--first-color', response.primaryColor);
+          document.documentElement.style.setProperty('--secondary-color', response.secondaryColor);
+          document.documentElement.style.setProperty('--third-color', response.thirdcolor);
+
       })
       .catch((error) => {
           if(error.response?.status === 404) {
