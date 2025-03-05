@@ -10,6 +10,7 @@ import {
     deletePersonnalisationGraphique, //deletePersonnalisationGraphique(id)
 } from './../../Requests_API/Personnalisation_Graphic';
 import { changePassword, updateEmail, deleteAccount } from './../../Requests_API/User';
+import { PersonnalisationGraphiqueContext } from '../../App';
 
 
 const parametersList = [
@@ -54,16 +55,20 @@ const SettingPage = () => {
     
     },[toDelete, toUpdate, editEmail, oldPassword, reinitializePassword]);
 
-    /* Graphic */
-    const [idPersonnalisationGraphique, setIdPersonnalisationGraphique] = React.useState('');
-    /** Fonts **/
-    const [firstPolice, setFirstPolice] = React.useState('');
-    const [secondaryPolice, setSecondaryPolice] = React.useState('');
-
-    /** Colors **/
-    const [firstColor, setFirstColor] = React.useState('');
-    const [secondaryColor, setSecondaryColor] = React.useState('');
-    const [thirdColor, setThirdColor] = React.useState('');
+    const {
+        idPersonnalisationGraphique, 
+        setIdPersonnalisationGraphique, 
+        firstPolice, 
+        setFirstPolice,
+        secondaryPolice, 
+        setSecondaryPolice,
+        firstColor, 
+        setFirstColor,
+        secondaryColor,
+        setSecondaryColor,
+        thirdColor,
+        setThirdColor
+    } = React.useContext(PersonnalisationGraphiqueContext);
 
     const getAPersonnalisationGraphiqueByOwnerId = () => {
         getPersonnalisationGraphiqueByOwnerId(sessionStorage.getItem('ownerId'))
@@ -86,11 +91,6 @@ const SettingPage = () => {
             }
         });
     };
-    useEffect(() => {
-        getAPersonnalisationGraphiqueByOwnerId();
-        console.log("firstColor", firstColor);
-        firstColor !== '' && console.log("firstColor", firstColor);
-    }, [firstColor]);
 
     const createNewPersonnalisationGraphique = () => {
 
