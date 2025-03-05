@@ -134,6 +134,7 @@ const SettingPage = () => {
         <Grid2 container spacing={2} sx={{
             alignItems: "center",
             justifyContent: "center",
+            fontFamily:'var(--secondary-police)',
         }}>
             <Grid2 item xs={12} sm={6}>
                 <FormGroup>
@@ -150,8 +151,7 @@ const SettingPage = () => {
                 </FormGroup>
                 <Typography variant="h4" component="h1" gutterBottom sx={{
                     textAlign: "left",
-                    fontFamily:'var(--secondary-police)',
-
+                    // fontFamily:'var(--secondary-police)',
                 }}>
                 Paramètres de 
                     {parameters === parametersList[0] ? parametersList[0] : parametersList[1]}

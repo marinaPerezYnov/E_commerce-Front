@@ -63,7 +63,11 @@ const HeaderDrawerAppBar = () => {
 //   const container = window !== undefined ? () => window().document.body : undefined;
 
   return (
-    <Box sx={{ display: 'flex' }} class="header">
+    <Box sx={{ 
+      display: 'flex',
+      fontFamily:'var(--first-police)',
+      backgroundColor: 'var(--first-color)',
+      }} class="header">
       <CssBaseline />
       <AppBar component="nav">
         <Toolbar>
@@ -85,7 +89,12 @@ const HeaderDrawerAppBar = () => {
           </Typography>
           <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
             {(isConnect ? navItems : navItemsNonAuthentified).map((item) => (
-              <Button key={item.text} component={Link} to={item.path} sx={{ color: '#fff' }}>
+              <Button key={item.text} component={Link} to={item.path} sx={{ color: '#fff' }} onClick={()=>{
+                if(item.text === "Se déconnecter") {
+                  sessionStorage.clear();
+                  window.location.reload();
+                }
+              }}>
               {item.text}
             </Button>
             ))}

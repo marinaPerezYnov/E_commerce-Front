@@ -24,6 +24,7 @@ const RegisterPage = () => {
             justifyContent: 'space-around',
             alignItems: 'center',
             height: '100vh',
+            fontFamily:'var(--secondary-police)',
         }}>
             <Container className='authPicture'></Container>
             <Container>

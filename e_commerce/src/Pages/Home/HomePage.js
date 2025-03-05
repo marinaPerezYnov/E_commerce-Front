@@ -3,7 +3,9 @@ import { Container, Typography, Grid, Card, CardContent, CardMedia, Button } fro
 
 const HomePage = () => {
     return (
-        <p>HomePage</p>
+        <p style={{
+            fontFamily:'var(--secondary-police)',
+        }}>HomePage</p>
     );
 };
 

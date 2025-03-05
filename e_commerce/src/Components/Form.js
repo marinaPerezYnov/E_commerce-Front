@@ -24,7 +24,9 @@ const Form = ({title, buttonText, setpopupInformation, setpopupEmail}) => {
     };
 
     return (
-        <Container maxWidth="sm">
+        <Container maxWidth="sm" sx={{
+            fontFamily:'var(--secondary-police)',
+        }}>
             <Typography variant="h4" component="h1" gutterBottom>
                 {title}
             </Typography>

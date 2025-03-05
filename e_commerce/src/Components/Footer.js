@@ -4,7 +4,12 @@ import { Container, Typography, Link, Box } from '@mui/material';
 function Footer() {
     const navItems = ["Accueil", "Boutique", "Produits", "Personnalisation", "Contact"];
     return (
-        <Box sx={{ bgcolor: 'black', p: 6 }} component="footer">
+        <Box sx={{ 
+            bgcolor: 'black',
+            p: 6,
+            fontFamily:'var(--first-police)',
+            backgroundColor: 'var(--first-color)',
+            }} component="footer">
             <Container maxWidth="lg">
                 <Typography variant="h6" align="center" gutterBottom>
                     E-commerce Site
