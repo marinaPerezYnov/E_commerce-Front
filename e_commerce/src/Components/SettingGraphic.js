@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { 
-    Grid2, 
+    Grid, 
     FormGroup, 
     FormControlLabel, 
     Switch, 
@@ -38,101 +38,105 @@ const SettingGraphic = ({
 }) => {
     const [choosePolice, setChoosePolice] = React.useState('Première font');
     const [chooseColor, setChooseColor] = React.useState('première couleur');
-    const [color, setColor] = React.useState("#aabbcc");
+    const [color, setColor] = React.useState("");
     const [category, setCategory] = React.useState("Fonts");
 
-    const handleChangeCategory = (e) => {
-        setCategory(e.target.innerText);
+    const handleChangeCategory = (event, newValue) => {
+        setCategory(newValue);
     };
 
     useEffect(() => {
-        if(category === "FONTS") {
-            document.getElementById("Fonts").style.display = "block";
-            document.getElementById("Colors").style.display = "none";
+        if (chooseColor === 'première couleur') {
+            setColor(setFirstColor);
+        } else if (chooseColor === 'deuxième couleur') {
+            setColor(setSecondaryColor);
+        } else if (chooseColor === 'troisième couleur') {
+            setColor(setThirdColor);
         }
-        if(category === "COLORS") {
-            document.getElementById("Fonts").style.display = "none";
-            document.getElementById("Colors").style.display = "flex";
-        }
-    }, [category]);
+    }, [chooseColor, setFirstColor, setSecondaryColor, setThirdColor]);
 
     return (
-        <Grid2 id="ContainerSettings" item xs={12} sm={12} sx={{
+        <Grid container id="ContainerSettings" item xs={12} sm={12} sx={{
             padding: "2%",
             boxShadow: "2px 2px 3px 0px #004580",
             width: "100%",
         }}>
-            {/* Sélection "Fonts" ou "Colors */}
-            <Tabs value={category} onChange={(e)=>handleChangeCategory(e)} aria-label="select setting">
-                <Tab label="Fonts" />
-                <Tab label="Colors" />
+            {/* Sélection "Fonts" ou "Colors" */}
+            <Tabs value={category} onChange={handleChangeCategory} aria-label="select setting">
+                <Tab label="Fonts" value="Fonts" />
+                <Tab label="Colors" value="Colors" />
             </Tabs>
-            <Grid2 id="Fonts" item xs={12} sm={6}>
-                <FormGroup>
-                    <FormControlLabel 
-                        control={<Switch defaultChecked onChange={()=> {
-                            if(choosePolice === 'Deuxième font') {
-                                setChoosePolice('Première font');
-                            } else {
-                            setChoosePolice('Deuxième font');
-                            }
-                        }} />} 
-                        label={choosePolice} 
-                    />
-                </FormGroup>
-                <FormControl>
-                <RadioGroup
-                        aria-labelledby="demo-radio-buttons-group-label"
-                        defaultValue={ListOfFonts[0]}
-                        name="radio-buttons-group"
-                        onChange={(e) => {
-                            const selectedFont = e.target.value;
-                            if (choosePolice !== "Première font") {
-                                setSecondaryPolice(selectedFont);
-                            } else {
-                                setFirstPolice(selectedFont);
-                            }
-                        }}
-                    >
-                        {ListOfFonts.map((font, index) => (
-                            <FormControlLabel key={index} value={font} control={<Radio />} label={font} />
-                        ))}
-                    </RadioGroup>
-                </FormControl>
-            </Grid2>
-            <Grid2 id="Colors" item xs={12} sm={12}>
-                <FormControl>
-                    <RadioGroup
-                        aria-labelledby="demo-radio-buttons-group-label"
-                        defaultValue={ListOfFonts[0]}
-                        name="radio-buttons-group"
-                    >
-                        {ListOfColors.map((color, index) => (
-                            <FormControlLabel onClick={()=>{
-                                setChooseColor(color);
-                            }} value={color} control={<Radio />} label={color} />
-                        ))}
-                    </RadioGroup>
-                </FormControl>
-
-                <HexColorPicker color={color} onChange={(e) => {
-                    switch(chooseColor) {
-                        case "première couleur":
-                            setFirstColor(e);
-                            break;
-                        case "deuxième couleur":
-                            setSecondaryColor(e);
-                            break;
-                        case "troisième couleur":
-                            setThirdColor(e);
-                            break;
-                        default:
-                            break;
-                    }
-                }} />
-        </Grid2>
-    </Grid2>
-    )
+            {category === "Fonts" && (
+                <Grid item xs={12} sm={6} id="Fonts">
+                    <FormGroup>
+                        <FormControlLabel 
+                            control={<Switch defaultChecked onChange={() => {
+                                if (choosePolice === 'Deuxième font') {
+                                    setChoosePolice('Première font');
+                                } else {
+                                    setChoosePolice('Deuxième font');
+                                }
+                            }} />} 
+                            label={choosePolice} 
+                        />
+                    </FormGroup>
+                    <FormControl>
+                        <RadioGroup
+                            aria-labelledby="demo-radio-buttons-group-label"
+                            defaultValue={ListOfFonts[0]}
+                            name="radio-buttons-group"
+                            onChange={(e) => {
+                                const selectedFont = e.target.value;
+                                if (choosePolice !== "Première font") {
+                                    setSecondaryPolice(selectedFont);
+                                } else {
+                                    setFirstPolice(selectedFont);
+                                }
+                            }}
+                        >
+                            {ListOfFonts.map((font, index) => (
+                                <FormControlLabel key={index} value={font} control={<Radio />} label={font} />
+                            ))}
+                        </RadioGroup>
+                    </FormControl>
+                </Grid>
+            )}
+            {category === "Colors" && (
+                <Grid item xs={12} sm={12} id="Colors">
+                    <FormControl>
+                        <RadioGroup
+                            aria-labelledby="demo-radio-buttons-group-label"
+                            defaultValue={ListOfColors[0]}
+                            name="radio-buttons-group"
+                            onChange={(e) => {
+                                setChooseColor(e.target.value);
+                            }}
+                        >
+                            {ListOfColors.map((color, index) => (
+                                <FormControlLabel key={index} value={color} control={<Radio />} label={color} />
+                            ))}
+                        </RadioGroup>
+                    </FormControl>
+                    <HexColorPicker color={color} onChange={(e) => {
+                        setColor(e);
+                        switch (chooseColor) {
+                            case "première couleur":
+                                setFirstColor(e);
+                                break;
+                            case "deuxième couleur":
+                                setSecondaryColor(e);
+                                break;
+                            case "troisième couleur":
+                                setThirdColor(e);
+                                break;
+                            default:
+                                break;
+                        }
+                    }} />
+                </Grid>
+            )}
+        </Grid>
+    );
 };
 
 export default SettingGraphic;

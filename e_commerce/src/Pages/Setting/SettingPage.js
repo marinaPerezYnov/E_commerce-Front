@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from 'react';
-import { FormGroup, Grid2, Switch, Typography, FormControlLabel, Button, Container } from '@mui/material';
+import React, { use, useEffect, useState } from 'react';
+import { FormGroup, Grid2, Switch, Typography, FormControlLabel, Button, Container, Icon } from '@mui/material';
+import ColorLensIcon from '@mui/icons-material/ColorLens';
 import SettingAccount from '../../Components/SettingAccount';
 import SettingGraphic from '../../Components/SettingGraphic';
 import { 
-    getPersonnalisationGraphiques,
     createPersonnalisationGraphique, //createPersonnalisationGraphique(data)
     updatePersonnalisationGraphique, //updatePersonnalisationGraphique(id, data)
     getPersonnalisationGraphiqueByOwnerId, //getPersonnalisationGraphiqueByOwnerId(ownerId)
@@ -65,37 +65,32 @@ const SettingPage = () => {
     const [secondaryColor, setSecondaryColor] = React.useState('');
     const [thirdColor, setThirdColor] = React.useState('');
 
-    useEffect(() => {
-        getPersonnalisationGraphiques()
-        .then((response) => {
-            console.log(response);
-        })
-        .catch((error) => {
-            console.error(error);
-        });
-        /* Mise à jour des valeurs dans les inputs */
+    const getAPersonnalisationGraphiqueByOwnerId = () => {
         getPersonnalisationGraphiqueByOwnerId(sessionStorage.getItem('ownerId'))
         .then((response) => {
             /*
                 Enregistrement de l'id de la personnalisation graphique pour la fournir dans les requêtes
                  de mise à jour et de suppression de réservation graphique 
             */
-            setIdPersonnalisationGraphique(response[0]._id);
-            if(response.length > 0) {
-                setFirstPolice(response[0].firstPolice);
-                setSecondaryPolice(response[0].secondaryPolice);
-                setFirstColor(response[0].firstColor);
-                setSecondaryColor(response[0].secondaryColor);
-                setThirdColor(response[0].thirdColor);
-            }
+            setIdPersonnalisationGraphique(response._id);
+            console.log("response.primaryColor", response.primaryColor);
+            setFirstPolice(response.firstPolice);
+            setSecondaryPolice(response.secondaryPolice);
+            setFirstColor(response.primaryColor);
+            setSecondaryColor(response.secondaryColor);
+            setThirdColor(response.thirdcolor);
         })
         .catch((error) => {
             if(error.response?.status === 404) {
                 console.log("Not found");
             }
         });
-        
-    }, []);
+    };
+    useEffect(() => {
+        getAPersonnalisationGraphiqueByOwnerId();
+        console.log("firstColor", firstColor);
+        firstColor !== '' && console.log("firstColor", firstColor);
+    }, [firstColor]);
 
     const createNewPersonnalisationGraphique = () => {
 
@@ -107,27 +102,31 @@ const SettingPage = () => {
             secondaryColor: secondaryColor,
             thirdcolor: thirdColor
         });
+        getAPersonnalisationGraphiqueByOwnerId();
     };
 
-    const updatePersonnalisationGraphiqueById = (id) => {
+    const updatePersonnalisationGraphiqueById = () => {
                 /* 
             Verification de la mise à jour de la personnalisation graphic 
             et de l'appel de fonction d'execution de requête update 
         */
        if( firstPolice !== '' && secondaryPolice !== '' && firstColor !== '' && secondaryColor !== '' && thirdColor !== '') {
-            updatePersonnalisationGraphique(id, {
-                firstPolice,
-                secondaryPolice,
-                firstColor,
-                secondaryColor,
-                thirdColor
+            updatePersonnalisationGraphique(idPersonnalisationGraphique, {
+                ownerId: Number(sessionStorage.getItem('ownerId')),
+                firstPolice: firstPolice,
+                secondaryPolice: secondaryPolice,
+                primaryColor: firstColor,
+                secondaryColor: secondaryColor,
+                thirdcolor: thirdColor
             });
+            getAPersonnalisationGraphiqueByOwnerId();
         }
     };
 
     const deletePersonnalisationGraphiqueById = (id) => {
         if(id !== '') {
             deletePersonnalisationGraphique(id);
+            getAPersonnalisationGraphiqueByOwnerId();
         }
     };
 
@@ -180,27 +179,74 @@ const SettingPage = () => {
                         createNewPersonnalisationGraphique={createNewPersonnalisationGraphique}
                     />
                 }
-                {/* 
-                    Bloc qui va lister les fonts avec leurs valeurs et les couleurs avec leurs valeurs
-                     en se basant sur une propriété transférée au composant enfant SettingGraphic.js
-                     Ex de props setCategory={setCategory}  qui settera comme valeur Fonts ou Colors
-                 */}
                 <Grid2 item xs={12} sm={6}>
-                    {/* Bouton pour créer et mettre à jour les données en fonction de parameters === parametersList[0] */}
-                    <Button variant="contained" color="primary" 
-                        sx={{
-                            width: '100%',
-                            margin: '2%'
-                        }} onClick={createNewPersonnalisationGraphique}
-                        disabled={idPersonnalisationGraphique !== ''}
-                    >Editer {parameters === parametersList[0]?parametersList[0]:parametersList[1] }</Button>
-                    <Button variant="contained" color="primary" 
-                        sx={{
-                            width: '100%',
-                            margin: '2%'
-                        }} onClick={updatePersonnalisationGraphiqueById}
-                        disabled={idPersonnalisationGraphique === ''}
-                    >Mettre à jour{parameters === parametersList[0]?parametersList[0]:parametersList[1] }</Button>
+                    {/* Bloc qui va afficher les couleurs et les fonts choisies */}
+                    <Grid2 item xs={12} sm={6} sx={{
+                        padding: "5%",
+                    }}>
+                        {parameters === parametersList[1] &&
+                        <>
+                        <Typography variant="h6" component="h2" gutterBottom sx={{
+                            textAlign: "left",
+                            fontFamily: firstPolice === '' ? 'initial' : firstPolice
+                        }}>
+                            Police 1: {firstPolice}
+                        </Typography>
+                        <Typography variant="h6" component="h2" gutterBottom sx={{
+                            textAlign: "left",
+                            fontFamily: secondaryPolice === '' ? 'initial' : secondaryPolice
+                        }}>
+                            Police 2: {secondaryPolice}
+                        </Typography>
+                        <Typography variant="h6" component="h2" gutterBottom sx={{
+                            textAlign: "left",
+                        }}>
+                            Couleur 1: 
+                            <ColorLensIcon sx={{
+                                color: firstColor+' !important',
+                            }} />
+                        </Typography>
+                        <Typography variant="h6" component="h2" gutterBottom sx={{
+                            textAlign: "left",
+                        }}>
+                            Couleur 2: 
+                            <ColorLensIcon sx={{
+                                color: secondaryColor+' !important',
+                            }} />
+                        </Typography>
+                        <Typography variant="h6" component="h2" gutterBottom sx={{
+                            textAlign: "left",
+                        }}>
+                            Couleur 3: 
+                            <ColorLensIcon sx={{
+                                color: thirdColor+' !important',
+                            }} />
+                        </Typography>
+                    </>
+                        }
+                    </Grid2>
+                    {/* 
+                        Bloc qui va lister les fonts avec leurs valeurs et les couleurs avec leurs valeurs
+                        en se basant sur une propriété transférée au composant enfant SettingGraphic.js
+                        Ex de props setCategory={setCategory}  qui settera comme valeur Fonts ou Colors
+                    */}
+                    <Grid2 item xs={12} sm={6}>
+                        {/* Bouton pour créer et mettre à jour les données en fonction de parameters === parametersList[0] */}
+                        <Button variant="contained" color="primary" 
+                            sx={{
+                                width: '100%',
+                                margin: '2%'
+                            }} onClick={createNewPersonnalisationGraphique}
+                            disabled={idPersonnalisationGraphique !== ''}
+                        >Editer {parameters === parametersList[0]?parametersList[0]:parametersList[1] }</Button>
+                        <Button variant="contained" color="primary" 
+                            sx={{
+                                width: '100%',
+                                margin: '2%'
+                            }} onClick={updatePersonnalisationGraphiqueById}
+                            disabled={idPersonnalisationGraphique === ''}
+                        >Mettre à jour{parameters === parametersList[0]?parametersList[0]:parametersList[1] }</Button>
+                    </Grid2>
                 </Grid2>
                 </Container>
             </Grid2>
