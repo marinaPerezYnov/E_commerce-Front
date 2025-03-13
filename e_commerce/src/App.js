@@ -7,6 +7,10 @@ import RegisterPage from "./Pages/Auths/RegisterPage";
 import SettingPage from "./Pages/Setting/SettingPage";
 import HomePage from "./Pages/Home/HomePage";
 import { getPersonnalisationGraphiqueByOwnerId } from "./Requests_API/Personnalisation_Graphic";
+import ProductsPage from "./Pages/Products/ProductsPage";
+import ProductIdPage from "./Pages/Products/ProductIdPage";
+import ProductPage from "./Pages/Products/Admin/addPage";
+import ProduitToUpdatePage from "./Pages/Products/Admin/updatePage";
 
 import './App.css';
 import './Styles/variable.css';
@@ -81,10 +85,15 @@ function App() {
               margin: '10% 2%',
             }}>
               <Routes>
+                <Route exact path="/" element={<HomePage />}></Route>
                 <Route exact path="/accueil" element={<HomePage />}></Route>
                 <Route exact path="/connection" element={<LoginPage />}></Route>
                 <Route exact path="/inscription" element={<RegisterPage />}></Route>
                 <Route exact path="/parametres" element={<SettingPage />}></Route>
+                <Route exact path="/produits" element={<ProductsPage />}></Route>
+                <Route exact path="/produits/{id}" element={<ProductIdPage />}></Route>
+                <Route exact path="/produits/admin/produit" element={<ProductPage />}></Route>
+                <Route exact path="/produits/admin/produit/{id}" element={<ProduitToUpdatePage />}></Route>
               </Routes>
             </div>
             <Footer />
