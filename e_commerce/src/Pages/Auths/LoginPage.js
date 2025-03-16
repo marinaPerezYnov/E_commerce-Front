@@ -10,10 +10,6 @@ const LoginPage = () => {
     const [popupInformation, setpopupInformation] = React.useState(false);
     const [popupEmail, setpopupEmail] = React.useState(false);
 
-    useEffect(() => {
-        console.log(popupInformation);
-    }, [popupInformation]);
-
     const handleClosePasswordInformation = () => {
         setpopupInformation(false);
     };
@@ -29,9 +25,9 @@ const LoginPage = () => {
             justifyContent: 'space-around',
             alignItems: 'center',
             height: '100vh',
+            marginRight: "0",
             fontFamily:'var(--secondary-police)',
         }}>
-            <Container className='authPicture'></Container>
             <Container>
                 <Form title={"Login"} buttonText={"Login"} setpopupInformation={setpopupInformation} setpopupEmail={setpopupEmail} />
                 {popupInformation && (

@@ -2,25 +2,17 @@ import React from 'react';
 import { Container, Typography, Link, Box } from '@mui/material';
 
 function Footer() {
-    const navItems = ["Accueil", "Boutique", "Produits", "Personnalisation", "Contact"];
+    const navItems = ["Accueil", "Produits", "Personnalisation"];
     return (
         <Box sx={{ 
-            bgcolor: 'black',
+            backgroundColor: 'darkcyan',
             p: 6,
             fontFamily:'var(--first-police)',
-            backgroundColor: 'var(--first-color)',
+            color: 'white',
             }} component="footer">
             <Container maxWidth="lg">
                 <Typography variant="h6" align="center" gutterBottom>
-                    E-commerce Site
-                </Typography>
-                <Typography
-                    variant="subtitle1"
-                    align="center"
-                    color="text.secondary"
-                    component="p"
-                >
-                    Your one-stop shop for all your needs!
+                    Site multiservices
                 </Typography>
                 <Box mt={2} display="flex" justifyContent="center">
                     {navItems.map((item) => (

@@ -4,7 +4,6 @@ const API_URL = 'http://localhost:3000'; // Replace with your actual API URL
 
 // Function to create a new personnalisation graphique
 export const createPersonnalisationGraphique = async (data) => {
-    console.log(data);
     const response = await axios.post(`${API_URL}/personnalisationGraphic`, data, {
         headers: {
             Authorization: `Bearer ${sessionStorage.getItem('token')}`,

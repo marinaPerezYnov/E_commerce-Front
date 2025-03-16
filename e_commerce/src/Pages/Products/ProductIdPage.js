@@ -17,16 +17,6 @@ const ProductIdPage = () => {
             });
         }
     }, [id, setProduct]);
-    
-    useEffect(() => {
-        console.log('product =>', product);
-    }, [product]);
-    const addToShop = (product) => {
-        console.log('product =>', product);
-        // const shop = JSON.parse(sessionStorage.getItem('shop')) || [];
-        // shop.push(product);
-        // sessionStorage.setItem('shop', JSON.stringify(shop));
-    }
 
     return (
         <Container sx={{

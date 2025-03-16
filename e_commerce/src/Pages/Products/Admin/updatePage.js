@@ -21,7 +21,6 @@ const ProduitToUpdatePage = () => {
         if (id) {
             getProductById(id).then((response) => {
                 const product = response;
-                console.log("product => ", product);
                 setNom(product.nom);
                 setDescription(product.description);
                 setPrix(product.prix);
@@ -42,11 +41,17 @@ const ProduitToUpdatePage = () => {
 
     return (
         <Container sx={{
-            backgroundColor: 'dodgerblue',
-            color: 'white',
+            display: 'flex',
+            justifyContent: 'start',
+            alignItems: 'center',
+            flexDirection: 'column',
+            height: '100vh',
+            marginRight: "105px",
+            fontFamily:'var(--secondary-police)',
+            width: "50%",
+            backgroundColor: 'mistyrose',
             padding: '2% 5%',
             marginLeft: 'auto',
-            marginRight: 'auto',
             marginTop: '10%',
         }}>
             <Typography variant="h4" component="h1" gutterBottom>
@@ -59,12 +64,6 @@ const ProduitToUpdatePage = () => {
                     onChange={(e) => setNom(e.target.value)}
                     fullWidth
                     margin="normal"
-                    InputLabelProps={{
-                        style: { color: 'white' },
-                    }}
-                    InputProps={{
-                        style: { color: 'white' },
-                    }}
                 />
                 <TextField
                     label="Prix"
@@ -73,12 +72,6 @@ const ProduitToUpdatePage = () => {
                     onChange={(e) => setPrix(parseFloat(e.target.value))}
                     fullWidth
                     margin="normal"
-                    InputLabelProps={{
-                        style: { color: 'white' },
-                    }}
-                    InputProps={{
-                        style: { color: 'white' },
-                    }}
                 />
                 <TextField
                     label="Quantité"
@@ -87,12 +80,6 @@ const ProduitToUpdatePage = () => {
                     onChange={(e) => setQuantite(parseInt(e.target.value))}
                     fullWidth
                     margin="normal"
-                    InputLabelProps={{
-                        style: { color: 'white' },
-                    }}
-                    InputProps={{
-                        style: { color: 'white' },
-                    }}
                 />
                 <TextField
                     label="URL de l'image"
@@ -100,12 +87,6 @@ const ProduitToUpdatePage = () => {
                     onChange={(e) => setPicture(e.target.value)}
                     fullWidth
                     margin="normal"
-                    InputLabelProps={{
-                        style: { color: 'white' },
-                    }}
-                    InputProps={{
-                        style: { color: 'white' },
-                    }}
                 />
                 <TextField
                     label="Description"
@@ -113,20 +94,13 @@ const ProduitToUpdatePage = () => {
                     onChange={(e) => setDescription(e.target.value)}
                     fullWidth
                     margin="normal"
-                    InputLabelProps={{
-                        style: { color: 'white' },
-                    }}
-                    InputProps={{
-                        style: { color: 'white' },
-                    }}
                 />
                 <Button
                     variant="contained"
                     color="primary"
                     onClick={handleSave}
                     sx={{
-                        backgroundColor: '#094989',
-                        color: 'white',
+                        backgroundColor: '#e5b6b1',
                         width: '40%',
                         marginTop: '20px',
                     }}

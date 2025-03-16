@@ -14,7 +14,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../App';
 
 const drawerWidth = 240;
@@ -26,32 +26,33 @@ const navItemsNonAuthentified = [
 
   const navItems = [
     { text: "Accueil", path: "/accueil" },
-    { text: "Boutique", path: "/boutique" },
     { text: "Produits", path: "/produits" },
     { text: "Personnalisation", path: "/parametres" },
-    { text: "Contact", path: "/contact" },
     { text: "Se déconnecter", path: "/deconnexion" }
   ];
 
 const HeaderDrawerAppBar = () => {
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const { isConnect } = React.useContext(AuthContext);
-  console.log("isConnect =>", isConnect);
-  console.log("sessionStorage =>", sessionStorage.getItem('token'));
   const handleDrawerToggle = () => {
     setMobileOpen((prevState) => !prevState);
   };
-
+  const navigate = useNavigate();
   const drawer = (
     <Box onClick={handleDrawerToggle} sx={{ textAlign: 'center' }}>
       <Typography variant="h6" sx={{ my: 2 }}>
-        MUI
+        MULTI-SERVICES
       </Typography>
       <Divider />
       <List>
         {(isConnect ? navItems : navItemsNonAuthentified).map((item) => (
           <ListItem key={item.text} disablePadding>
-            <ListItemButton component={Link} to={item.path} sx={{ textAlign: 'center' }}>
+            <ListItemButton component={Link} to={item.path} sx={{ textAlign: 'center' }} onClick={()=>{
+              if(item.text === "Se déconnecter") {
+                sessionStorage.clear();
+                navigate('/accueil');
+              }
+            }}>
               <ListItemText primary={item.text} />
             </ListItemButton>
           </ListItem>
@@ -60,8 +61,6 @@ const HeaderDrawerAppBar = () => {
     </Box>
   );
 
-//   const container = window !== undefined ? () => window().document.body : undefined;
-
   return (
     <Box sx={{ 
       display: 'flex',
@@ -69,7 +68,9 @@ const HeaderDrawerAppBar = () => {
       backgroundColor: 'var(--first-color)',
       }} class="header">
       <CssBaseline />
-      <AppBar component="nav">
+      <AppBar component="nav" sx={{
+        backgroundColor: 'darkcyan'
+      }}>
         <Toolbar>
           <IconButton
             color="inherit"
@@ -85,7 +86,7 @@ const HeaderDrawerAppBar = () => {
             component="div"
             sx={{ flexGrow: 1, display: { xs: 'none', sm: 'block' } }}
           >
-            MUI
+            MULTI-SERVICES
           </Typography>
           <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
             {(isConnect ? navItems : navItemsNonAuthentified).map((item) => (
@@ -103,12 +104,11 @@ const HeaderDrawerAppBar = () => {
       </AppBar>
       <nav>
         <Drawer
-        //   container={container}
           variant="temporary"
           open={mobileOpen}
           onClose={handleDrawerToggle}
           ModalProps={{
-            keepMounted: true, // Better open performance on mobile.
+            keepMounted: true,
           }}
           sx={{
             display: { xs: 'block', sm: 'none' },

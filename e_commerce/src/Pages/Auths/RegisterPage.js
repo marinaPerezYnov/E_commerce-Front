@@ -10,7 +10,6 @@ const RegisterPage = () => {
     const [popupEmail, setpopupEmail] = React.useState(false);
 
     const handleClosePasswordInformation = () => {
-        console.log("close password information");
         setpopupInformation(false);
     };
 
@@ -24,9 +23,9 @@ const RegisterPage = () => {
             justifyContent: 'space-around',
             alignItems: 'center',
             height: '100vh',
+            marginRight: "0",
             fontFamily:'var(--secondary-police)',
         }}>
-            <Container className='authPicture'></Container>
             <Container>
                 <Form title="Register" buttonText="Register" setpopupInformation={setpopupInformation} setpopupEmail={setpopupEmail} />
                 {popupInformation && (

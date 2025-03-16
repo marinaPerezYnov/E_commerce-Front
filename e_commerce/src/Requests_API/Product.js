@@ -25,7 +25,6 @@ export const getProductById = async (id) => {
                 'Content-Type': 'application/json',
             }
         });
-        console.log('response =>', response.data);
         return response.data;
     } catch (error) {
         console.error('Error getting product by id:', error);
@@ -41,7 +40,6 @@ export const addProduct = async (product) => {
                 'Content-Type': 'application/json',
             }
         });
-        console.log('response =>', response.data);
         return response.data;
     } catch (error) {
         console.error('Error adding product:', error);

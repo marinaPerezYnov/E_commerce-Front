@@ -14,6 +14,10 @@ import ProduitToUpdatePage from "./Pages/Products/Admin/updatePage";
 import { ProductProvider } from './Pages/Products/ProductContext';
 import './App.css';
 import './Styles/variable.css';
+import image1 from './Utils/Pictures/pexels-photo-2608495.webp';
+import image2 from './Utils/Pictures/pexels-photo-8128069.webp';
+import image3 from './Utils/Pictures/pexels-photo-8450508.webp';
+import image4 from './Utils/Pictures/pexels-photo-31110070.webp';
 
 export const AuthContext = createContext();
 export const PersonnalisationGraphiqueContext = createContext();
@@ -83,8 +87,51 @@ function App() {
             <div className="App">
               <HeaderDrawerAppBar />
               <div className="containerBloc" style={{
-                margin: '10% 2%',
+                margin: "5% 2%",
+                minHeight: "920px",
               }}>
+                <div style={{
+                  display: "flex",
+                  flexWrap: "wrap",
+                  width: "50%",
+                  zIndex: "-1",
+                  position: "absolute",
+                }}>
+                  <div style={{
+                    backgroundColor: "white",
+                    width: "100%",
+                    opacity: "0.5",
+                  }}>
+                    <img src={image1} alt="Image 1" style={{
+                      width: "400px",
+                      height: "500px",
+                      minWidth: "400px",
+                      minHeight: "500px",
+                      objectFit: "cover",
+                    }}width="300" />
+                    <img src={image2} alt="Image 2" style={{
+                      width: "400px",
+                      height: "500px",
+                      minWidth: "400px",
+                      minHeight: "500px",
+                      objectFit: "cover",
+                    }}width="300" />
+                    <img src={image3} alt="Image 3" style={{
+                      width: "400px",
+                      height: "500px",
+                      minWidth: "400px",
+                      minHeight: "500px",
+                      objectFit: "cover",
+                    }}width="300" />
+                    <img src={image4} alt="Image 4" style={{
+                      width: "400px",
+                      height: "500px",
+                      minWidth: "400px",
+                      minHeight: "500px",
+                      objectFit: "cover",
+                    }}width="300" />
+                  </div>
+                </div>
                 <Routes>
                   <Route exact path="/" element={<HomePage />}></Route>
                   <Route exact path="/accueil" element={<HomePage />}></Route>

@@ -78,7 +78,6 @@ const SettingPage = () => {
                  de mise à jour et de suppression de réservation graphique 
             */
             setIdPersonnalisationGraphique(response._id);
-            console.log("response.primaryColor", response.primaryColor);
             setFirstPolice(response.firstPolice);
             setSecondaryPolice(response.secondaryPolice);
             setFirstColor(response.primaryColor);
@@ -131,10 +130,15 @@ const SettingPage = () => {
     };
 
     return(
-        <Grid2 container spacing={2} sx={{
-            alignItems: "center",
-            justifyContent: "center",
+        <Container sx={{
+            display: 'flex',
+            justifyContent: 'start',
+            alignItems: 'center',
+            flexDirection: 'column',
+            height: '100vh',
+            marginRight: "0",
             fontFamily:'var(--secondary-police)',
+            width: "50%",
         }}>
             <Grid2 item xs={12} sm={6}>
                 <FormGroup>
@@ -252,7 +256,7 @@ const SettingPage = () => {
                 </Grid2>
                 </Container>
             </Grid2>
-        </Grid2>
+        </Container>
     );
 };
 

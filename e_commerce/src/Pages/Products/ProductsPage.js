@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Button, Divider, FormGroup, Grid2, List, ListItem, Toolbar, Typography } from '@mui/material';
+import { Button, Divider, FormGroup, Grid2, List, ListItem, Toolbar, Typography, Container } from '@mui/material';
 import { styled, alpha } from '@mui/material/styles';
 import AppBar from '@mui/material/AppBar';
 import InputBase from '@mui/material/InputBase';
@@ -141,14 +141,28 @@ const ProductPage = () => {
       }));
     
     return (
-        <Grid2>
-            <Typography>Produits</Typography>
+        <Container sx={{
+            display: 'flex',
+            justifyContent: 'start',
+            alignItems: 'center',
+            flexDirection: 'column',
+            height: '100vh',
+            marginRight: "105px",
+            fontFamily:'var(--secondary-police)',
+            width: "50%",
+        }}>
+            <Typography variant="h4" component="h1" gutterBottom sx={{
+                    marginTop: "10%",
+                    width: "100%",
+                }}>Produits</Typography>
             <Grid2 container sx={{
                 display: 'flex',
                 alignItems: 'baseline',
                 justifyContent: 'space-between',
             }}>
-                <Grid2 item xs={12} sm={6}>
+                <Grid2 item xs={12} sm={12} sx={{
+                    width: '100%',
+                }}>
                     <AppBar position='static'>
                         <Toolbar sx={{
                             backgroundColor: 'darkcyan',
@@ -165,10 +179,6 @@ const ProductPage = () => {
                             </Search>
                         </Toolbar>
                     </AppBar>
-
-                    <Divider sx={{
-                        marginTop: '10%',
-                    }} />
 
                     {/** Checkbox de mots clés */}
                     <FormGroup sx={{
@@ -191,8 +201,9 @@ const ProductPage = () => {
                     <Divider />
 
                 </Grid2>
-                <Grid2 item xs={12} sm={6} sx={{
-                    width: '75%',
+                <Grid2 item xs={12} sm={12} sx={{
+                    width: '100%',
+                    marginTop: '5%'
                 }}>
                     {admin && (
                        <Button onClick={() => navigate('/produits/admin/produit')} sx={{
@@ -245,7 +256,7 @@ const ProductPage = () => {
                                         marginTop: '5%'
                                     }} onClick={()=>{
                                         updateProduct(product._id);
-                                        navigate("/produits");    
+                                        // navigate("/produits");    
                                     }}>Modifier</Button>
                                     <Button sx={{
                                         backgroundColor: 'darkcyan',
@@ -272,7 +283,7 @@ const ProductPage = () => {
                     </List>
                 </Grid2>
             </Grid2>
-        </Grid2>
+        </Container>
     );
 }
 
