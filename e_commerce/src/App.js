@@ -9,9 +9,9 @@ import HomePage from "./Pages/Home/HomePage";
 import { getPersonnalisationGraphiqueByOwnerId } from "./Requests_API/Personnalisation_Graphic";
 import ProductsPage from "./Pages/Products/ProductsPage";
 import ProductIdPage from "./Pages/Products/ProductIdPage";
-import ProductPage from "./Pages/Products/Admin/addPage";
+import AddProductPage from "./Pages/Products/Admin/addPage";
 import ProduitToUpdatePage from "./Pages/Products/Admin/updatePage";
-
+import { ProductProvider } from './Pages/Products/ProductContext';
 import './App.css';
 import './Styles/variable.css';
 
@@ -78,27 +78,29 @@ function App() {
         setSecondaryColor,
         setThirdColor
       }}>
-        <Router>
-          <div className="App">
-            <HeaderDrawerAppBar />
-            <div className="containerBloc" style={{
-              margin: '10% 2%',
-            }}>
-              <Routes>
-                <Route exact path="/" element={<HomePage />}></Route>
-                <Route exact path="/accueil" element={<HomePage />}></Route>
-                <Route exact path="/connection" element={<LoginPage />}></Route>
-                <Route exact path="/inscription" element={<RegisterPage />}></Route>
-                <Route exact path="/parametres" element={<SettingPage />}></Route>
-                <Route exact path="/produits" element={<ProductsPage />}></Route>
-                <Route exact path="/produits/{id}" element={<ProductIdPage />}></Route>
-                <Route exact path="/produits/admin/produit" element={<ProductPage />}></Route>
-                <Route exact path="/produits/admin/produit/{id}" element={<ProduitToUpdatePage />}></Route>
-              </Routes>
+        <ProductProvider>
+          <Router>
+            <div className="App">
+              <HeaderDrawerAppBar />
+              <div className="containerBloc" style={{
+                margin: '10% 2%',
+              }}>
+                <Routes>
+                  <Route exact path="/" element={<HomePage />}></Route>
+                  <Route exact path="/accueil" element={<HomePage />}></Route>
+                  <Route exact path="/connection" element={<LoginPage />}></Route>
+                  <Route exact path="/inscription" element={<RegisterPage />}></Route>
+                  <Route exact path="/parametres" element={<SettingPage />}></Route>
+                  <Route exact path="/produits" element={<ProductsPage />}></Route>
+                  <Route exact path="/produits/:id" element={<ProductIdPage />}></Route>
+                  <Route exact path="/produits/admin/produit" element={<AddProductPage />}></Route>
+                  <Route exact path="/produits/admin/produit/:id" element={<ProduitToUpdatePage />}></Route>
+                </Routes>
+              </div>
+              <Footer />
             </div>
-            <Footer />
-          </div>
-        </Router>
+          </Router>
+        </ProductProvider>
       </PersonnalisationGraphiqueContext.Provider>
     </AuthContext.Provider>
   );

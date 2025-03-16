@@ -1,53 +1,44 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Button, Divider, FormGroup, Grid2, List, ListItem, TextField, Toolbar, Typography } from '@mui/material';
+import { Button, Divider, FormGroup, Grid2, List, ListItem, Toolbar, Typography } from '@mui/material';
 import { styled, alpha } from '@mui/material/styles';
 import AppBar from '@mui/material/AppBar';
 import InputBase from '@mui/material/InputBase';
 import SearchIcon from '@mui/icons-material/Search';
 import Checkbox from '@mui/material/Checkbox';
 import FormControlLabel from '@mui/material/FormControlLabel';
+import { ProductContext } from './ProductContext';
+import { getProducts } from './../../Requests_API/Product';
 
 const ProductPage = () => {
 
     const [products, setProducts] = useState([]);
     const [admin, setAdmin] = useState(false);
-
+    const { product, setProduct } = React.useContext(ProductContext);
     const [tags, setTags] = useState('');
     const navigate = useNavigate();
 
     const picture = "https://images.pexels.com/photos/3270223/pexels-photo-3270223.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2";
 
     useEffect(() => {
-        setAdmin(true);
-        // Récupérer les produits
-        setProducts([
-            {
-                id: 1,
-                name: 'Produit 1',
-                price: 10.00,
-                picture: picture,
-                description: 'Description du produit 1',
-            },
-            {
-                id: 2,
-                name: 'Produit 2',
-                price: 20.00,
-                picture: picture,
-                description: 'Description du produit 2',
-            },
-            {
-                id: 3,
-                name: 'Produit 3',
-                price: 30.00,
-                picture: picture,
-                description: 'Description du produit 3',
-            },
-        ]);
-        setTags('tag1, tag2, tag3');
+        getProducts()
+        .then((response) => {
+            setProducts(response);
+        })
+        .catch((error) => {
+            console.log('error =>', error);
+        });
+
     }, []);
 
-    const updateProduct = () => {};
+    useEffect(() => {
+        // setAdmin(true);
+        setTags('tag1, tag2, tag3');
+    }, [products]);
+
+    const updateProduct = (id) => {
+        navigate(`/produits/admin/produit/${id}`)
+    };
 
     const deleteProduct = () => {};
 
@@ -147,6 +138,14 @@ const ProductPage = () => {
                 <Grid2 item xs={12} sm={6} sx={{
                     width: '75%',
                 }}>
+                    {admin && (
+                       <Button onClick={() => navigate('/produits/admin/produit')} sx={{
+                            backgroundColor: 'darkcyan',
+                            color: 'white',
+                            width: '40%',
+                            marginBottom: '5%'
+                        }}>Ajouter un produit</Button>
+                    )}
                     <List sx={{
                         display: 'flex',
                         flexWrap: 'wrap',
@@ -163,14 +162,14 @@ const ProductPage = () => {
                             <Typography sx={{
                                 width: '100%'
                             }}>
-                                <stron>{product.name}</stron></Typography>
+                                <stron>{product.nom}</stron></Typography>
                             <Typography sx={{
                                 width: '100%'
-                            }}><strong>Prix :</strong> {product.price}</Typography>
+                            }}><strong>Prix :</strong> {product.prix}</Typography>
                             <Typography sx={{
                                 width: '100%'
                             }}><strong>Description :</strong> {product.description}</Typography>
-                            <img src={product.picture} alt={product.name} style={{
+                            <img src={product.picture} alt={product.nom} style={{
                                 width: '100%',
                             }} />
                             
@@ -188,7 +187,7 @@ const ProductPage = () => {
                                         color: 'white',
                                         width: '100%',
                                         marginTop: '5%'
-                                    }} onClick={updateProduct}>Modifier</Button>
+                                    }} onClick={()=>updateProduct(product._id)}>Modifier</Button>
                                     <Button sx={{
                                         backgroundColor: 'darkcyan',
                                         color: 'white',
@@ -206,7 +205,7 @@ const ProductPage = () => {
                                         color: 'white',
                                         width: '100%',
                                         marginTop: '5%'
-                                    }} onClick={()=>navigate(`/produit/${product.id}`)}>Voir les détails</Button>
+                                    }} onClick={()=>navigate(`/produit/${product._id}`)}>Voir les détails</Button>
                                     <Button sx={{
                                         backgroundColor: 'darkcyan',
                                         color: 'white',
