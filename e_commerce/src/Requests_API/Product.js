@@ -65,6 +65,7 @@ export const updateProduct = async (id, product) => {
 };
 
 export const deleteProduct = async (id) => {
+
     try {
         const response = await axios.delete(`${API_URL}/produits/${id}`,  {
             headers: {

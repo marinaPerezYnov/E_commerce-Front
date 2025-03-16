@@ -7,15 +7,29 @@ import InputBase from '@mui/material/InputBase';
 import SearchIcon from '@mui/icons-material/Search';
 import Checkbox from '@mui/material/Checkbox';
 import FormControlLabel from '@mui/material/FormControlLabel';
-import { ProductContext } from './ProductContext';
-import { getProducts } from './../../Requests_API/Product';
+import { getProducts, deleteProduct } from './../../Requests_API/Product';
+import { getUserById } from './../../Requests_API/User';
 
 const ProductPage = () => {
 
     const [products, setProducts] = useState([]);
     const [admin, setAdmin] = useState(false);
-    const { product, setProduct } = React.useContext(ProductContext);
-    const [tags, setTags] = useState('');
+    const [tags, setTags] = useState([
+        {
+            "prix" : [
+            {
+                min: 1, max: 30
+            }, 
+            {
+                min: 30, max: 50
+            }, 
+            {
+                min: 50, max: 100
+            }
+            ],
+        }
+    ]);
+    const [selectedPrices, setSelectedPrices] = useState([]);
     const navigate = useNavigate();
 
     const picture = "https://images.pexels.com/photos/3270223/pexels-photo-3270223.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2";
@@ -32,15 +46,55 @@ const ProductPage = () => {
     }, []);
 
     useEffect(() => {
-        // setAdmin(true);
-        setTags('tag1, tag2, tag3');
-    }, [products]);
+        const  ownerId = parseInt(sessionStorage.getItem('ownerId'));
+
+        if(!isNaN(ownerId)) {
+            getUserById(sessionStorage.getItem('ownerId'))
+            .then((response) => {
+                if(response.role === 'admin') {
+                    setAdmin(true);
+                } else {
+                    setAdmin(false);
+                }
+            })
+            .catch((error) => {
+                console.log('error =>', error);
+            });
+        } else {
+            console.log('invalid ownerId');
+        }
+    }, []);
+
+    useEffect(() => {
+        if (selectedPrices.length > 0) {
+            const filteredProducts = products.filter(product => 
+                selectedPrices.some(price => product.prix >= price.min && product.prix <= price.max)
+            );
+            setProducts(filteredProducts);
+        } else {
+            getProducts()
+            .then((response) => {
+                setProducts(response);
+            })
+            .catch((error) => {
+                console.log('error =>', error);
+            });
+        }
+    }, [selectedPrices]);
+
+    const handlePriceChange = (price) => {
+        setSelectedPrices(prevSelectedPrices => {
+            if (prevSelectedPrices.includes(price)) {
+                return prevSelectedPrices.filter(p => p !== price);
+            } else {
+                return [...prevSelectedPrices, price];
+            }
+        });
+    };
 
     const updateProduct = (id) => {
         navigate(`/produits/admin/produit/${id}`)
     };
-
-    const deleteProduct = () => {};
 
     const addProductToCart = () => {};
 
@@ -115,24 +169,26 @@ const ProductPage = () => {
                     <Divider sx={{
                         marginTop: '10%',
                     }} />
+
                     {/** Checkbox de mots clés */}
                     <FormGroup sx={{
                         marginTop: '5%',
                     }}>
-                        {tags.split(',').map((tag) => (
-                            <FormControlLabel control={<Checkbox />} label={tag} />
+                        {tags[0].prix?.map((price, index) => (
+                            <FormControlLabel
+                                key={index}
+                                control={
+                                    <Checkbox
+                                        checked={selectedPrices.includes(price)}
+                                        onChange={() => handlePriceChange(price)}
+                                    />
+                                }
+                                label={`${price.min} - ${price.max} €`}
+                            />
                         ))}
                     </FormGroup>
 
                     <Divider />
-                    {/** Checkbox de mots clés */}
-                    <FormGroup sx={{
-                        marginTop: '5%',
-                    }}>
-                        {tags.split(',').map((tag) => (
-                            <FormControlLabel control={<Checkbox />} label={tag} />
-                        ))}
-                    </FormGroup>
 
                 </Grid2>
                 <Grid2 item xs={12} sm={6} sx={{
@@ -187,13 +243,16 @@ const ProductPage = () => {
                                         color: 'white',
                                         width: '100%',
                                         marginTop: '5%'
-                                    }} onClick={()=>updateProduct(product._id)}>Modifier</Button>
+                                    }} onClick={()=>{
+                                        updateProduct(product._id);
+                                        navigate("/produits");    
+                                    }}>Modifier</Button>
                                     <Button sx={{
                                         backgroundColor: 'darkcyan',
                                         color: 'white',
                                         width: '100%',
                                         marginTop: '5%'
-                                    }} onClick={deleteProduct}>Supprimer</Button>
+                                    }} onClick={() => deleteProduct(product._id)}>Supprimer</Button>
                                 </Grid2>
                             )
                             :   
@@ -205,13 +264,7 @@ const ProductPage = () => {
                                         color: 'white',
                                         width: '100%',
                                         marginTop: '5%'
-                                    }} onClick={()=>navigate(`/produit/${product._id}`)}>Voir les détails</Button>
-                                    <Button sx={{
-                                        backgroundColor: 'darkcyan',
-                                        color: 'white',
-                                        width: '100%',
-                                        marginTop: '5%'
-                                    }} onClick={addProductToCart}>Ajouter au panier</Button>
+                                    }} onClick={()=>navigate(`/produits/${product._id}`)}>Voir les détails</Button>
                                 </Grid2>
                             }
                         </ListItem>
